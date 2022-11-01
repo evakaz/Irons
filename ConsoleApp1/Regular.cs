@@ -5,20 +5,19 @@ using System.Text;
 namespace Iron
 {
 
-    interface IIrons
+    interface IIron
     {
         string TurnOn();
         string TurnOff();
         string Descale();
-        string DolroningTemp(int temperature);
-        string DolroningProg(string ProgramName);
+        string DoIroning(int temperature);
+        string DoIroning(string ProgramName);
         string UseSteam();
         string Autodescale();
-        string TurnTheLightOn();
     }
 
 
-    public class Regular : IIrons
+    public class Regular : IIron
     {
         public string name;
         public int Temperature;
@@ -33,22 +32,15 @@ namespace Iron
         public Regular(IIronRandomGenerator randomGenerator)
         {
             this.randomGenerator = randomGenerator;
-
-            Temperature = 0;
-            ProgramName = "";
             this.name = "regular";
             this.timesUsed = 0;
             timesSteamUsed = 0;
             lightOn = false;
             steamIsBeingUsed = false;
         }
-        public void Test()
-        {
-            Console.WriteLine("My name is " + this.name);
-            Console.ReadKey();
-        }
 
-        public virtual string DolroningTemp(int temperature)
+
+        public virtual string DoIroning(int temperature)
         {
             if (timesUsed < 3)
             {
@@ -73,7 +65,6 @@ namespace Iron
                     return "Invalid temperature name for ironing.";
                 }
                 timesUsed++;
-                //Console.WriteLine(timesUsed);
                 if (steamIsBeingUsed & temperature >= 120)
                 {
                     timesSteamUsed++;
@@ -83,20 +74,23 @@ namespace Iron
                 }
                 return name + " is ironing with " + this.ProgramName;
             }
-            // timeUsed > 3
             return Autodescale();
         }
 
 
-        public string DolroningProg(string ProgramName)
+        public string DoIroning(string ProgramName)
         {
             int num;
             if (timesUsed < 3)
             {
-                if (ProgramName == "Linen")
+                if (ProgramName == "Linen" & this.name == "linen")
                 {
                     num = this.randomGenerator.GetForRange(200, 231);
                     Console.WriteLine("Ironing with steam");
+                }
+                else if (ProgramName == "Linen")
+                {
+                    return "This iron doesn't have linen program.";
                 }
                 else if (ProgramName == "Cotton")
                 {
@@ -143,7 +137,6 @@ namespace Iron
         }
 
 
-        //
         public string UseSteam()
         {
             if (steamIsBeingUsed)

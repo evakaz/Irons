@@ -9,7 +9,7 @@ namespace Iron
         public int GetForRange(int start, int end)
         {
             Random rnd = new Random();
-            return rnd.Next(150, 200);
+            return rnd.Next(start, end);
         }
     }
 }
